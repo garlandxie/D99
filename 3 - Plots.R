@@ -61,7 +61,7 @@ spp_plot <- function(rlq_obj, main_title, y_limit, margins) {
     geom_label_repel(
       aes(x = AxcQ1, 
           y = AxcQ2, 
-          fill = (str_extract(rownames(rlq_obj$lQ), "^[^_]+")) #regex, 
+          fill = (str_extract(rownames(rlq_obj$lQ), "^[^_]+")), #regex, 
           label = rownames(rlq_obj$lQ)),
       segment.alpha = 0.5,
       point.padding = 0.5,
@@ -271,33 +271,37 @@ multiplot <- function(..., plotlist = NULL, file, cols = 1, layout = NULL) {
     }
   }
 }
+
 #### Plots ####
 
 # eigs
 eig_250 <- eig_plot(rlq_250, "A)", c(1,0,0,1)) # margins: t, r, b, l
 eig_500 <- eig_plot(rlq_500, "A)", c(1,0,0,1)) # margins: t, r, b, l
 
-# spp abundance 
-spp_250 <- spp_plot(rlq_250, "B)", c(-8, 10), c(1, 1, 0, 0)) # margins: t, r, b, l
-spp_500 <- spp_plot(rlq_500, "B)", c(-10, 10), c(1, 1, 0, 0)) # margins: t, r, b, l
-
 
 # env 
-env_250 <- env_plot(rlq_250, "C)", c(0, 0, 1, 1)) # margins: t, r, b, l
-env_500 <- env_plot(rlq_500, "C)", c(0, 0, 1, 1)) # margins: t, r, b, l
+env_250 <- env_plot(rlq_250, "B)", c(0, 0, 0, 1)) # margins: t, r, b, l
+env_500 <- env_plot(rlq_500, "B)", c(0, 0, 0, 1)) # margins: t, r, b, l
 
 
 # traits 
-trait_250 <- trait_plot(rlq_250, "D)", c(-4, 4), c(0, 1, 1, 0)) # margins: t, r, b, l
-trait_500 <- trait_plot(rlq_500, "D)", c(-4, 4), c(0, 1, 1, 0)) # margins: t, r, b, l
+trait_250 <- trait_plot(rlq_250, "C)", c(-4, 4), c(0, 1, 1, 0)) # margins: t, r, b, l
+trait_500 <- trait_plot(rlq_500, "C)", c(-4, 4), c(0, 1, 1, 0)) # margins: t, r, b, l
+
+# spp
+spp_250 <- spp_plot(rlq_250, "D)", c(-5, 5), c(0, 1, 1, 0))
+spp_500 <- spp_plot(rlq_500, "D)", c(-5, 5), c(0, 1, 1, 0))
+
 
 #### Bringing it all together ####
 
 # multi-panel figures
-multiplot(eig_250, env_250, spp_250, trait_250, cols = 2)
-multiplot(eig_500, env_500, spp_500, trait_500, cols = 2)
+plots_250 <- multiplot(eig_250, spp_250, env_250, trait_250, cols = 2)
+plots_500 <- multiplot(eig_500, spp_500, env_500, trait_500, cols = 2)
 
 
 
+
+_
 
 _
